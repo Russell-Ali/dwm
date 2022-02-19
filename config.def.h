@@ -29,15 +29,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class  instance  title  tags mask  isfloating  isterminal  noswallow  monitor */
-	{"Timeshift-gtk","timeshift-gtk",NULL,0,1,-1 },
-	{"Pcmanfm","pcmanfm",NULL,0,1,-1 },
-	{"qt5ct","qt5ct",NULL,0,1,-1 },
-	{"Lxappearance","lxappearance",NULL,0,1,-1 },
-    {"Pavucontrol","pavucontrol",NULL,0,1,-1 },
-    {"Galculator","galculator",NULL,0,1,-1 },
-	{ "kitty","kitty","kitty",0,0,1,0,-1 },
-	{NULL,NULL,"Event Tester",0,0,0,1,-1 }, /* xev */
+	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
+	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
 /* layout(s) */
@@ -67,13 +61,18 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, "-c", "-bw", "2", "-l", "16", "-h", "28", NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *browser[] = {"firefox",NULL};
+static const char *termcmd[]  = { "st", NULL };
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_r,	   spawn,          {.v = browser } },
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_s,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -90,7 +89,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_grave,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_o,      togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_o,  togglefloating, {0} },
 	{ MODKEY,                       XK_Down,   moveresize,     {.v = "0x 25y 0w 0h" } },
 	{ MODKEY,                       XK_Up,     moveresize,     {.v = "0x -25y 0w 0h" } },
 	{ MODKEY,                       XK_Right,  moveresize,     {.v = "25x 0y 0w 0h" } },
@@ -107,7 +106,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask|ShiftMask, XK_j,      moveresizeedge, {.v = "B"} },
 	{ MODKEY|ControlMask|ShiftMask, XK_l,      moveresizeedge, {.v = "R"} },
 	{ MODKEY|ControlMask|ShiftMask, XK_h,      moveresizeedge, {.v = "L"} },
-    { MODKEY,                       XK_f,      togglefullscr,  {0} },
+	{ MODKEY,     		        XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -125,9 +124,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ControlMask,           XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask,           XK_r,      quit,           {1} }, 
-	{ MODKEY,                       XK_minus, scratchpad_show, {0} },
-	{ MODKEY|ShiftMask,             XK_minus, scratchpad_hide, {0} },
-	{ MODKEY,                       XK_equal,scratchpad_remove,{0} },
+
 };
 
 /* button definitions */
