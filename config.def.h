@@ -32,6 +32,7 @@ static const Rule rules[] = {
 	{ "Pcmanfm","pcmanfm",NULL,              0,         1,        1,              0,              1,              -1 },
     { "Galculator","galculator",NULL,        0,         1,        1,              0,              1,              -1 },
     { "Timeshift-gtk","timeshift-gtk",NULL,  0,         1,        1,              0,              1,              -1 },
+    { "Surf","surf",NULL,                    0,         0,        0,              0,              1,              -1 },
 	{ "st-256color","st-256color",NULL,      0,         0,        0,              1,              0,              -1 },
 	{  NULL,NULL,"Event Tester",             0,         0,        0,              0,              1,              -1 }, /* xev */
 };
